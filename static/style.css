@@ -1,0 +1,56 @@
+/* Styling untuk body */
+body {
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Styling untuk container utama */
+.container {
+    width: 100%;
+    max-width: 800px;
+    padding: 30px;
+}
+
+/* Kontainer Judul */
+.input-container {
+    background-color: #fff;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+/* Kontainer Hasil */
+.result-container {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: none; /* Hasil tersembunyi sampai prediksi dilakukan */
+}
+
+/* Styling untuk heading */
+h3 {
+    font-weight: 500;
+    color: #333;
+}
+
+/* Styling untuk tombol submit */
+button {
+    width: 200px;
+    margin-top: 20px;
+}
+
+/* Styling untuk hasil */
+.result-container h5 {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.result-container p {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}

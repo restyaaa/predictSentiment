@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisis Sentimen</title>
+</head>
+<body>
+    <h1>Selamat datang di API Analisis Sentimen</h1>
+    <form action="/predict" method="POST">
+        <label for="text">Masukkan Teks:</label><br>
+        <textarea name="text" id="text" rows="4" cols="50"></textarea><br><br>
+        
+        <label for="model">Pilih Model:</label><br>
+        <select name="chosen_model" id="model">
+            <option value="knn">KNN</option>
+            <option value="svm">SVM</option>
+        </select><br><br>
+        
+        <button type="submit">Prediksi</button>
+    </form>
+    
+    {% if result %}
+        <h2>Hasil Prediksi:</h2>
+        <p><strong>Teks:</strong> {{ result.text }}</p>
+        <p><strong>Sentimen yang diprediksi:</strong> {{ result.predicted_sentiment }}</p>
+    {% endif %}
+</body>
+</html>
