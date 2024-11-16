@@ -9,12 +9,14 @@ import string
 import gensim
 import nltk
 import compress_pickle
+import os
 
 # Inisialisasi FastAPI
 app = FastAPI()
 
 # Setup Jinja2 untuk template HTML
-templates = Jinja2Templates(directory="templates")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
 # Download NLTK stopwords dan tokenizer
 nltk.download('punkt')
