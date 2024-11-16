@@ -2,14 +2,14 @@ import pickle
 import numpy as np
 from fastapi import FastAPI, HTTPException, Form, Request
 from fastapi.templating import Jinja2Templates
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 import string
 import gensim
 import nltk
 import compress_pickle
 import os
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 
 # Inisialisasi FastAPI
 app = FastAPI()
@@ -18,12 +18,17 @@ app = FastAPI()
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
-# Download NLTK stopwords dan tokenizer
-nltk.download('punkt')
-nltk.download('stopwords')
+# Cek dan tentukan path nltk_data di Railway
+nltk.data.path.append('/app/nltk_data')  # Menambahkan direktori untuk nltk_data
+nltk.download('punkt', download_dir='/app/nltk_data')
+nltk.download('stopwords', download_dir='/app/nltk_data')
 
 # Memuat model FastText dari file .pkl.gz yang terkompresi
-model_vec = compress_pickle.load('models/cc.id.300.pkl.gz')
+model_path = 'models/cc.id.300.pkl.gz'
+if os.path.exists(model_path):
+    model_vec = compress_pickle.load(model_path)
+else:
+    raise FileNotFoundError(f"File model tidak ditemukan di {model_path}")
 
 # Muat model klasifikasi
 knn = pickle.load(open('models/KNN+GridSearch.pkl', 'rb'))
@@ -53,6 +58,9 @@ async def read_root(request: Request):
 # Endpoint untuk menerima form input dan memberikan prediksi sentimen
 @app.post("/predict")
 async def predict_sentiment(request: Request, text: str = Form(...), chosen_model: str = Form(...)):
+    if not text.strip():
+        raise HTTPException(status_code=400, detail="Input text is empty.")
+    
     clean_words = preprocess_text(text)
 
     # Ambil vektor untuk setiap kata yang ada dalam model FastText
